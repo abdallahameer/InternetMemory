@@ -55,15 +55,15 @@ export default function SavedItemCard({
       </div>
 
       {/* Content */}
-      <div className="p-6">
-        <h3 className="font-bold text-lg mb-2 group-hover:text-purple-400 transition-colors">
+      <div className="p-4 sm:p-6">
+        <h3 className="font-bold text-base sm:text-lg mb-2 group-hover:text-purple-400 transition-colors">
           {title}
         </h3>
-        <p className="text-slate-400 text-sm mb-4">{description}</p>
+        <p className="text-slate-400 text-xs sm:text-sm mb-4">{description}</p>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-2 text-xs text-slate-500">
-          <span>{date}</span>
+        <div className="flex items-center justify-between gap-2 text-xs sm:text-sm text-slate-500 flex-wrap">
+          <span className="truncate">{date}</span>
           <div className="flex gap-2">
             <button
               onClick={() => onLike(item.id)}

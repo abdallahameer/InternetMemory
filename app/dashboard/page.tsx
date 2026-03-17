@@ -73,6 +73,7 @@ export default function DashboardPage() {
     null,
   );
   const [searchQuery, setSearchQuery] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { post: addLink } = usePost(API_ENDPOINTS.LINKS);
   const { post: postCollection } = usePost(API_ENDPOINTS.COLLECTIONS);
@@ -223,21 +224,39 @@ export default function DashboardPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-slate-950 text-white flex">
-        <Sidebar
-          collections={collections ?? { collections: [] }}
-          onLogout={handleLogout}
-          onAddCollection={() => setAddCollection(true)}
-          activeCollection={activeCollection}
-          showFavorites={showFavorites}
-          onSelectCollection={handleSelectCollection}
-          onShowFavorites={handleShowFavorites}
-          deleteFunction={handleDeleteCollection}
-          onEdit={handleEditCollection}
-        />
+      <div className="min-h-screen bg-slate-950 text-white flex flex-col md:flex-row">
+        {/* Mobile Sidebar Overlay */}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
 
-        <main className="flex-1 overflow-auto">
-          <DashboardHeader onSearch={setSearchQuery} title="Dashboard" />
+        {/* Sidebar */}
+        <div
+          className={`fixed md:relative inset-y-0 left-0 z-50 transform transition-transform md:transform-none ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+        >
+          <Sidebar
+            collections={collections ?? { collections: [] }}
+            onLogout={handleLogout}
+            onAddCollection={() => setAddCollection(true)}
+            activeCollection={activeCollection}
+            showFavorites={showFavorites}
+            onSelectCollection={handleSelectCollection}
+            onShowFavorites={handleShowFavorites}
+            deleteFunction={handleDeleteCollection}
+            onEdit={handleEditCollection}
+          />
+        </div>
+
+        {/* Main Content */}
+        <main className="flex-1 overflow-auto w-full">
+          <DashboardHeader
+            onSearch={setSearchQuery}
+            title="Dashboard"
+            onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
+          />
           <StatsSection stats={stats} />
           <TabFilter onAddLink={() => setAddNewLink(true)} />
           <ContentGrid

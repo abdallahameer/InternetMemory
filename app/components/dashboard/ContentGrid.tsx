@@ -27,8 +27,8 @@ export default function ContentGrid({
   onEdit,
 }: ContentGridProps) {
   return (
-    <section className="px-8 py-8">
-      <div className="grid grid-cols-3 gap-6">
+    <section className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {items?.map((item) => (
           <SavedItemCard
             key={item.id}

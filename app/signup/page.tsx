@@ -43,9 +43,9 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen flex w-full items-center justify-center">
-      <div className="flex flex-col items-center justify-center w-full lg:w-auto">
-        <Card>
+    <div className="min-h-screen flex w-full items-center justify-center px-4 py-8 sm:py-0">
+      <div className="flex flex-col items-center justify-center w-full sm:w-auto">
+        <Card className="w-full sm:min-w-[420px] md:min-w-[500px]">
           <Header title="Welcome!" subtitle="Create Your Account" />
           <form onSubmit={handleSubmit} className="space-y-6">
             <TextInput
