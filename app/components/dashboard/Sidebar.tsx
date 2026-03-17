@@ -79,9 +79,9 @@ export default function Sidebar({
               </button>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
-                  <button className="hover:text-slate-300 hover:cursor-pointer px-2 py-2">
+                  <p className="hover:text-slate-300 hover:cursor-pointer px-2 py-2">
                     ⋮
-                  </button>
+                  </p>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content className="bg-slate-800 text-white rounded-md p-2 shadow-lg">
                   <DropdownMenu.Item

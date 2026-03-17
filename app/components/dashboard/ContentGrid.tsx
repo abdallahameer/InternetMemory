@@ -5,6 +5,7 @@ import SavedItemCard from "./SavedItemCard";
 interface Link {
   id: string;
   url: string;
+  image: string;
   title: string;
   description: string;
   collection_id: string | null;
@@ -36,7 +37,7 @@ export default function ContentGrid({
             title={item.title}
             description={item.description}
             date={item.created_at}
-            image={item.url}
+            image={item.image}
             item={item}
             onLike={onLike}
             onDelete={onDelete}
