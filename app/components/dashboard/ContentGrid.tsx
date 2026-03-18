@@ -26,7 +26,7 @@ export default function ContentGrid({
             title={item.title}
             description={item.description}
             date={item.created_at}
-            image={item.image}
+            image={item.image ?? ""}
             item={item}
             onLike={onLike}
             onDelete={onDelete}
