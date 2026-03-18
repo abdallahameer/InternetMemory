@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { fetchOgImage } from "@/lib/fetchOgImage";
 
 function getSupabase(token: string) {
   return createClient(
@@ -51,9 +52,11 @@ export async function POST(req: NextRequest) {
   if (!url)
     return NextResponse.json({ error: "URL is required" }, { status: 400 });
 
+  // ✅ Fetch og:image automatically
+  const image = await fetchOgImage(url);
+
   let collection_id = null;
 
-  // Handle collection — find existing or create new
   if (collection?.trim()) {
     const { data: existing } = await supabase
       .from("collections")
@@ -63,10 +66,8 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (existing) {
-      // Collection already exists — use it
       collection_id = existing.id;
     } else {
-      // Collection doesn't exist — create it
       const { data: newCol } = await supabase
         .from("collections")
         .insert({ name: collection.trim(), user_id: user.id })
@@ -78,7 +79,7 @@ export async function POST(req: NextRequest) {
 
   const { data, error } = await supabase
     .from("links")
-    .insert({ url, title, description, collection_id, user_id: user.id })
+    .insert({ url, title, description, collection_id, user_id: user.id, image }) // ✅ image added
     .select()
     .single();
 

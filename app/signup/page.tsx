@@ -10,6 +10,7 @@ import PasswordInput from "@/app/components/common/PasswordInput";
 import Button from "@/app/components/common/Button";
 import NavLink from "@/app/components/common/NavLink";
 import { usePost } from "@/app/hooks/usePost";
+import { toast } from "react-toastify";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -36,7 +37,11 @@ export default function SignUpPage() {
 
     try {
       await post({ name, email, password });
-      router.push("/login");
+
+      router.push("/dashboard");
+      toast.success(
+        "we sent you a confermation email. please confirm your email to start using the app.",
+      );
     } catch (err: any) {
       setError(err.response?.data?.error || "An error occurred");
     }
@@ -52,6 +57,7 @@ export default function SignUpPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Full Name"
+              className="w-full px-6 py-3 bg-gray-100! text-gray-900! rounded-full! border-2 border-transparent focus:border-blue-500! focus:outline-none transition placeholder:text-gray-500!"
             />
             <EmailInput
               value={email}

@@ -19,8 +19,20 @@ export async function POST(req: NextRequest) {
   if (error)
     return NextResponse.json({ error: error.message }, { status: 400 });
 
-  return NextResponse.json(
+  // ✅ Set the token cookie so user is logged in immediately after signup
+  const token = data.session?.access_token;
+
+  const res = NextResponse.json(
     { message: "Account created!", user: data.user },
     { status: 201 },
   );
+
+  if (token) {
+    res.cookies.set("token", token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7,
+    });
+  }
+
+  return res;
 }

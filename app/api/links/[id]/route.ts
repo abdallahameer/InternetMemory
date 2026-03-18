@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { fetchOgImage } from "@/lib/fetchOgImage";
 
 function getSupabase(token: string) {
   return createClient(
@@ -46,17 +47,20 @@ export async function PATCH(
     return NextResponse.json({ error: "Not logged in" }, { status: 401 });
 
   const supabase = getSupabase(token);
+
   const {
     data: { user },
   } = await supabase.auth.getUser(token);
   if (!user)
     return NextResponse.json({ error: "Invalid session" }, { status: 401 });
 
-  const { title, description, collection } = await req.json();
+  const { url, title, description, collection } = await req.json();
+
+  // ✅ Fetch new image if URL changed
+  const image = url ? await fetchOgImage(url) : undefined;
 
   let collection_id = null;
 
-  // Handle collection name → find or create
   if (collection?.trim()) {
     const { data: existing } = await supabase
       .from("collections")
@@ -77,9 +81,16 @@ export async function PATCH(
     }
   }
 
+  const updateData = {
+    title,
+    description,
+    collection_id,
+    ...(image !== undefined && { image }), // ✅ only update image if URL was provided
+  };
+
   const { data, error } = await supabase
     .from("links")
-    .update({ title, description, collection_id })
+    .update(updateData)
     .eq("id", id)
     .eq("user_id", user.id)
     .select()

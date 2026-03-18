@@ -23,11 +23,12 @@ export default function ContentGrid({
           <SavedItemCard
             key={item.id}
             id={item.id}
+            url={item.url}
             title={item.title}
             description={item.description}
             date={item.created_at}
-            image={item.image ?? ""}
-            item={item}
+            image={item.image ? item.image : ""}
+            isLiked={item.is_liked}
             onLike={onLike}
             onDelete={onDelete}
             onEdit={onEdit}

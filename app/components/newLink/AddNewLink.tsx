@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { UseFormSetValue, UseFormReset } from "react-hook-form";
 import Card from "../common/Card";
 import Header from "@/app/components/common/Header";
@@ -41,6 +42,7 @@ export default function AddNewLink({
   currentDescription = "",
   currentCollection = "",
 }: AddNewLinkProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const isEditMode = mode === "edit";
   const title = isEditMode ? "Edit Link" : "Add New Link";
   const subtitle = isEditMode
@@ -52,14 +54,27 @@ export default function AddNewLink({
     reset();
     setOpen(false);
     onClose?.();
+    setIsSubmitting(false);
+  };
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      await submit();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <form
-      onSubmit={submit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
       className="fixed z-50 inset-0 flex items-center justify-center bg-black/50"
     >
-      <Card className="flex flex-col gap-3 w-full max-w-md">
+      <Card className="flex flex-col gap-3 w-full md:max-w-md">
         <LuX
           className="text-black hover:cursor-pointer"
           onClick={handleClose}
@@ -78,6 +93,7 @@ export default function AddNewLink({
           placeholder="Give it a title"
           value={currentTitle}
           onChange={(e) => setValue("title", e.target.value)}
+          required
         />
         <TextInput
           label="DESCRIPTION"
@@ -96,7 +112,7 @@ export default function AddNewLink({
           }
         />
 
-        <Button>{buttonText}</Button>
+        <Button disabled={isSubmitting}>{buttonText}</Button>
       </Card>
     </form>
   );

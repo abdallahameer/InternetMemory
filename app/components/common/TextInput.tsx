@@ -15,6 +15,7 @@ interface TextInputProps {
   icon?: React.ReactNode;
   autoComplete?: string;
   name?: string;
+  className?: string;
 }
 
 export default function TextInput({
@@ -30,6 +31,7 @@ export default function TextInput({
   icon,
   autoComplete,
   name,
+  className,
 }: TextInputProps) {
   return (
     <div className="w-full">
@@ -50,7 +52,7 @@ export default function TextInput({
           required={required}
           disabled={disabled}
           autoComplete={autoComplete}
-          className={`w-full px-4 py-2.5 rounded-lg bg-slate-800 border text-white placeholder-slate-500 transition-colors focus:outline-none ${
+          className={`w-full px-4 py-2.5 rounded-lg bg-slate-800 border text-white placeholder-slate-500 transition-colors focus:outline-none ${className || ""} ${
             error
               ? "border-red-500 focus:border-red-500"
               : "border-slate-700 focus:border-purple-500"

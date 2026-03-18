@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { UseFormSetValue, UseFormReset } from "react-hook-form";
 import Card from "../common/Card";
 import Header from "@/app/components/common/Header";
@@ -32,20 +33,34 @@ export default function AddNewCollection({
   onClose,
   currentValue = "", // 👈 add this
 }: AddNewCollectionProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const isEditMode = mode === "edit";
 
   const handleClose = () => {
     reset();
     setOpen(false);
     onClose?.();
+    setIsSubmitting(false);
+  };
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      await submit();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <form
-      onSubmit={submit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
       className="fixed z-50 inset-0 flex items-center justify-center"
     >
-      <Card className="flex flex-col gap-3">
+      <Card className="flex flex-col gap-3 w-full md:max-w-md">
         <LuX
           className="text-black hover:cursor-pointer"
           onClick={handleClose}
@@ -65,7 +80,9 @@ export default function AddNewCollection({
           onChange={(e) => setValue("collection", e.target.value)}
           required
         />
-        <Button>{isEditMode ? "Update Collection" : "Add Collection"}</Button>
+        <Button disabled={isSubmitting}>
+          {isEditMode ? "Update Collection" : "Add Collection"}
+        </Button>
       </Card>
     </form>
   );

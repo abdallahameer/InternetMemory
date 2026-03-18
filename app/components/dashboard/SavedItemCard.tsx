@@ -8,23 +8,26 @@ import { Link } from "../../types";
 
 interface SavedItemCardProps {
   id: string;
+  url: string;
   title: string;
   description: string;
   date: string;
   image: string;
+  isLiked: boolean;
   onLike: (id: string) => void;
-  item: Link;
   onDelete: (id: string) => void;
-  onEdit?: (item: Link) => void;
+  onEdit?: (link: Link) => void;
 }
 
 export default function SavedItemCard({
+  id,
+  url,
   title,
   description,
   date,
   image,
+  isLiked,
   onLike,
-  item,
   onDelete,
   onEdit,
 }: SavedItemCardProps) {
@@ -35,14 +38,14 @@ export default function SavedItemCard({
       {/* Image/Gradient */}
       <div
         className="h-40 relative group cursor-pointer flex items-center justify-center bg-gradient-to-br from-purple-600 to-blue-600"
-        onClick={() => router.push(item.url)}
+        onClick={() => router.push(url)}
       >
         {image ? (
           <Image
             width={300}
             height={160}
             className="w-full h-full overflow-hidden object-cover group-hover:scale-105 transition-transform"
-            src={image ?? ""}
+            src={image}
             alt={title}
           />
         ) : (
@@ -69,10 +72,10 @@ export default function SavedItemCard({
           <span className="truncate">{date}</span>
           <div className="flex gap-2">
             <button
-              onClick={() => onLike(item.id)}
+              onClick={() => onLike(id)}
               className="ml-2 text-xl hover:cursor-pointer  transition-transform hover:scale-125"
             >
-              {item.is_liked ? "❤️" : "🤍"}
+              {isLiked ? "❤️" : "🤍"}
             </button>
             <DropdownMenu.Root>
               <DropdownMenu.Trigger>
@@ -80,13 +83,25 @@ export default function SavedItemCard({
               </DropdownMenu.Trigger>
               <DropdownMenu.Content className="bg-slate-800 text-white rounded-md p-2 shadow-lg">
                 <DropdownMenu.Item
-                  onClick={() => onEdit?.(item)}
+                  onClick={() => {
+                    const link: Link = {
+                      id,
+                      url,
+                      title,
+                      description,
+                      collection_id: null,
+                      is_liked: isLiked,
+                      created_at: date,
+                      image,
+                    };
+                    onEdit?.(link);
+                  }}
                   className="px-4 py-2 hover:bg-slate-700 rounded-md cursor-pointer"
                 >
                   Edit
                 </DropdownMenu.Item>
                 <DropdownMenu.Item
-                  onClick={() => onDelete(item.id)}
+                  onClick={() => onDelete(id)}
                   className="px-4 py-2 hover:bg-slate-700 rounded-md cursor-pointer"
                 >
                   Delete
