@@ -1,16 +1,7 @@
 "use client";
 
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-
-interface Collection {
-  id: string;
-  name: string;
-  created_at: string;
-}
-
-interface CollectionsData {
-  collections: Collection[];
-}
+import { Collection, CollectionsData } from "../../types";
 
 interface SidebarProps {
   collections: CollectionsData;

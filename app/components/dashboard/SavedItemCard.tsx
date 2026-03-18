@@ -4,18 +4,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
-interface Link {
-  id: string;
-  url: string;
-  image: string;
-  title: string;
-  description: string;
-  collection_id: string | null;
-  is_liked: boolean;
-  created_at: string;
-  collections?: { name: string };
-}
+import { Link } from "../../types";
 
 interface SavedItemCardProps {
   id: string;

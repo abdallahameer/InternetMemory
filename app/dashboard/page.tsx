@@ -13,38 +13,13 @@ import AddNewLink from "../components/newLink/AddNewLink";
 import { useForm } from "react-hook-form";
 import AddNewCollection from "../components/newCollection/NewCollection";
 import { toast } from "react-toastify";
-
-type LinkForm = {
-  url: string | null;
-  title: string | null;
-  description: string | null;
-  collection: string | null;
-};
-
-type Link = {
-  id: string;
-  url: string;
-  title: string;
-  description: string;
-  collection_id: string | null;
-  is_liked: boolean;
-  created_at: string;
-  collections?: { name: string };
-};
-
-type Collection = {
-  id: string;
-  name: string;
-  created_at: string;
-};
-
-type LinksData = {
-  links: Link[];
-};
-
-type CollectionsData = {
-  collections: Collection[];
-};
+import {
+  Link,
+  Collection,
+  LinkForm,
+  LinksData,
+  CollectionsData,
+} from "../types";
 
 const API_ENDPOINTS = {
   LINKS: "/links",

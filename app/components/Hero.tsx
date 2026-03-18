@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Hero() {
   return (
     <section className="flex flex-col gap-4 sm:gap-8 items-center justify-center px-4 py-12 sm:py-20 text-center min-h-screen sm:min-h-screen">
@@ -14,9 +16,12 @@ export default function Hero() {
 
       {/* CTA Buttons */}
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-16 w-full sm:w-auto">
-        <button className="bg-pink-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-gray-800 text-sm sm:text-base">
+        <Link
+          href="/login"
+          className="hover:cursor-pointer bg-pink-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-gray-800 text-sm sm:text-base"
+        >
           Get Started Now
-        </button>
+        </Link>
       </div>
     </section>
   );

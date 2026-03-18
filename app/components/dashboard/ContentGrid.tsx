@@ -1,18 +1,7 @@
 "use client";
 
 import SavedItemCard from "./SavedItemCard";
-
-interface Link {
-  id: string;
-  url: string;
-  image: string;
-  title: string;
-  description: string;
-  collection_id: string | null;
-  is_liked: boolean;
-  created_at: string;
-  collections?: { name: string };
-}
+import { Link } from "../../types";
 
 interface ContentGridProps {
   items: Link[];
