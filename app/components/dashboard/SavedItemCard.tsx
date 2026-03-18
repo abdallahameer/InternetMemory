@@ -42,7 +42,7 @@ export default function SavedItemCard({
             width={300}
             height={160}
             className="w-full h-full overflow-hidden object-cover group-hover:scale-105 transition-transform"
-            src={image}
+            src={image ?? ""}
             alt={title}
           />
         ) : (
